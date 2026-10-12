@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f97316" />
+    <title>InternWorth — See beyond the job title</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <nav><a class="brand" href="/">intern<span>worth</span></a><span class="nav-note">Student-first internship intelligence</span></nav>
+      <section class="hero">
+        <p class="eyebrow">MAKE YOUR TIME COUNT</p>
+        <h1>Is this internship<br /><em>actually worth it?</em></h1>
+        <p class="lede">Paste an opportunity. Get a clear, explainable score based on pay, learning value, location, conversion potential, and fair-work signals.</p>
+      </section>
+      <section class="panel" aria-labelledby="form-title">
+        <div class="mode-tabs" role="tablist">
+          <button class="mode active" id="link-tab" role="tab" aria-selected="true">Analyse a link</button>
+          <button class="mode" id="file-tab" role="tab" aria-selected="false">Upload a file</button>
+          <button class="mode" id="manual-tab" role="tab" aria-selected="false">Enter details manually</button>
+        </div>
+        <div id="link-form" class="form-content">
+          <h2 id="form-title">Bring us the listing</h2>
+          <p>We fetch only this page in real time and respect the site's access rules.</p>
+          <form id="url-form">
+            <label for="url">Internship posting URL</label>
+            <div class="url-row"><input id="url" type="url" placeholder="https://…" required /><button class="primary" type="submit">Analyse <span>→</span></button></div>
+          </form>
+          <p class="small">If a site blocks extraction, switch to manual entry — your details stay in this session.</p>
+        </div>
+        <form id="file-form" class="form-content hidden">
+          <h2>Upload the opportunity</h2>
+          <p>Drop in a listing screenshot, PDF, or Word document. We extract the text, then score the same six signals.</p>
+          <label class="upload-box" for="listing-file"><input id="listing-file" type="file" accept=".pdf,.docx,.png,.jpg,.jpeg,.webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/webp" required /><span class="upload-icon">↑</span><strong id="upload-title">Choose a listing file</strong><small id="upload-detail">PDF, Word (.docx), PNG, JPG, or WEBP · up to 10 MB</small></label>
+          <button class="primary" type="submit">Analyse selected file <span>→</span></button>
+          <p class="small">Choose a file and analysis begins automatically. For a screenshot or scanned PDF, text is read with OCR.</p>
+        </form>
+        <form id="manual-form" class="form-content hidden">
+          <h2>Tell us what you know</h2>
+          <p>Use this for screenshots, PDFs, or listings that cannot be read from a link.</p>
+          <div class="grid">
+            <label>Role title<input name="title" placeholder="e.g. Data Analyst Intern" /></label>
+            <label>Company<input name="company" placeholder="Company name" /></label>
+            <label>Location / remote<input name="location" placeholder="e.g. Pune or Remote" /></label>
+            <label>Monthly stipend<input name="stipend" placeholder="e.g. ₹15,000 / month" /></label>
+          </div>
+          <label>What does the internship involve?<textarea name="description" minlength="20" required placeholder="Paste the responsibilities, requirements, hours, benefits, and anything else stated in the listing."></textarea></label>
+          <label>Company information <span class="optional">optional</span><textarea name="company_info" class="short" placeholder="About the company, size, website, funding, clients, or anything stated on the listing."></textarea></label>
+          <button class="primary" type="submit">Calculate worth <span>→</span></button>
+        </form>
+      </section>
+      <section class="method" aria-labelledby="method-title">
+        <div class="method-intro"><p class="eyebrow">NO BLACK BOX</p><h2 id="method-title">How we calculate the score</h2><p>Each opportunity is rated out of 100 using six visible signals. Higher is better in every category; missing information lowers confidence rather than being guessed.</p></div>
+        <div class="weights">
+          <div><b>25%</b><span>Pay & stipend</span></div><div><b>20%</b><span>Role clarity</span></div><div><b>15%</b><span>Company context</span></div><div><b>10%</b><span>Location fit</span></div><div><b>5%</b><span>Conversion path</span></div><div><b>25%</b><span>Fair-work signals</span></div>
+        </div>
+        <p class="formula">Worth Score = 25% pay + 20% role clarity + 15% company context + 10% location + 5% conversion + 25% fair-work signals</p>
+      </section>
+      <section id="loading" class="loading hidden" aria-live="polite"><div class="orbit"><i></i><i></i><i></i></div><strong>Reading the opportunity</strong><p>Checking the signals that matter — this should only take a moment.</p></section>
+      <section id="error" class="notice error hidden" role="alert"></section>
+      <section id="results" class="results hidden" aria-live="polite"></section>
+      <footer>InternWorth gives you transparent signals, not a verdict. Always verify the offer before accepting.</footer>
+    </main>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

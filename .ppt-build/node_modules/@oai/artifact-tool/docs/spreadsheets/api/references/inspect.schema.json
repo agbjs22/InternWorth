@@ -1,0 +1,2283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "openai.spreadsheet.inspection/v1"
+    },
+    "kind": {
+      "type": "string",
+      "const": "workbook"
+    },
+    "sheets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Sheet"
+      }
+    },
+    "definedNames": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DefinedName"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "kind",
+    "sheets",
+    "definedNames"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "Sheet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The worksheet's public name, also used as its inspection identifier."
+        },
+        "kind": {
+          "type": "string",
+          "const": "sheet"
+        },
+        "name": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Zero-based position in workbook sheet order."
+        },
+        "range": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "An A1 range within this worksheet."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A1 bounding range of the sparse cell collection, or null for an empty sheet."
+        },
+        "summary": {
+          "$ref": "#/$defs/Statistics"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Column"
+          }
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Cell"
+          },
+          "description": "Sparse cell collection in row-then-column order. Absent worksheet positions do not produce cell nodes."
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Region"
+          }
+        },
+        "drawings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Drawing"
+          }
+        },
+        "sparklines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SparklineGroup"
+          }
+        },
+        "slicers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Slicer"
+          }
+        },
+        "dataTables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DataTable"
+          }
+        },
+        "threads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Thread"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Note"
+          }
+        },
+        "tables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Table"
+          }
+        },
+        "charts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Chart"
+          }
+        },
+        "pivotTables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PivotTable"
+          }
+        },
+        "dataValidations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DataValidation"
+          }
+        },
+        "conditionalFormats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConditionalFormat"
+          }
+        },
+        "mergedRanges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "An A1 range within this worksheet."
+          }
+        },
+        "freezePanes": {
+          "type": "object",
+          "properties": {
+            "rowCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "columnCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "rowCount",
+            "columnCount"
+          ],
+          "additionalProperties": false
+        },
+        "showGridLines": {
+          "type": "boolean"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        },
+        "definedNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DefinedName"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "index",
+        "range",
+        "summary",
+        "columns",
+        "cells",
+        "regions",
+        "drawings",
+        "sparklines",
+        "slicers",
+        "dataTables",
+        "threads",
+        "notes",
+        "tables",
+        "charts",
+        "pivotTables",
+        "dataValidations",
+        "conditionalFormats",
+        "mergedRanges",
+        "freezePanes",
+        "showGridLines",
+        "layout",
+        "definedNames"
+      ],
+      "additionalProperties": false,
+      "id": "Sheet"
+    },
+    "Statistics": {
+      "type": "object",
+      "properties": {
+        "populatedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Cells with a nonblank computed value, including errors."
+        },
+        "blankCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Blank positions within the inspected rectangular range, including absent cells and empty-string values."
+        },
+        "numericCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Cells whose computed value is a finite number. Dates, booleans, and numeric-looking strings are excluded."
+        },
+        "textCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Cells with a nonempty string value, excluding date and error values."
+        },
+        "booleanCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "dateCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "errorCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "formulaCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Cells containing a formula, including formulas that return a blank or error."
+        },
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Minimum finite numeric value, or null when there are no numeric values."
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Maximum finite numeric value, or null when there are no numeric values."
+        },
+        "sum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Sum of finite numeric values; zero when there are none, or null when the sum exceeds the finite numeric range."
+        },
+        "average": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Mean of finite numeric values, or null when there are none."
+        }
+      },
+      "required": [
+        "populatedCount",
+        "blankCount",
+        "numericCount",
+        "textCount",
+        "booleanCount",
+        "dateCount",
+        "errorCount",
+        "formulaCount",
+        "min",
+        "max",
+        "sum",
+        "average"
+      ],
+      "additionalProperties": false,
+      "id": "Statistics"
+    },
+    "Column": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Sheet-qualified identifier for this column's inspected range or empty table column."
+        },
+        "kind": {
+          "type": "string",
+          "const": "column"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        },
+        "column": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991,
+          "description": "One-based worksheet column number."
+        },
+        "letter": {
+          "type": "string",
+          "description": "Worksheet column label, such as A or AA."
+        },
+        "name": {
+          "description": "The native table column name, or first-row text for a detected region column. Absent for unnamed worksheet columns.",
+          "type": "string"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "An A1 range within this worksheet."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Inspected A1 range, or null when a table column has no body rows."
+        },
+        "statistics": {
+          "description": "Computed values within this column's range. Table-column ranges exclude headers and totals.",
+          "$ref": "#/$defs/Statistics"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "column",
+        "letter",
+        "range",
+        "statistics"
+      ],
+      "additionalProperties": false,
+      "id": "Column"
+    },
+    "Cell": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Sheet-qualified A1 cell address, with the sheet name quoted when needed."
+        },
+        "kind": {
+          "type": "string",
+          "const": "cell"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        },
+        "address": {
+          "type": "string",
+          "description": "A1 cell address within the sheet."
+        },
+        "row": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991,
+          "description": "One-based worksheet row number."
+        },
+        "column": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991,
+          "description": "One-based worksheet column number."
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Computed value. Dates are ISO strings, errors are error-code strings, and blanks are null or an empty string. valueType distinguishes these cases."
+        },
+        "valueType": {
+          "type": "string",
+          "enum": [
+            "blank",
+            "number",
+            "string",
+            "boolean",
+            "date",
+            "error"
+          ]
+        },
+        "formula": {
+          "description": "Formula including the leading equals sign, when present.",
+          "type": "string"
+        },
+        "error": {
+          "description": "Computed error code, such as #DIV/0!, when the cell value is an error.",
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "description": "Displayed text after the cell's number and text formatting is applied."
+        },
+        "computedStyle": {
+          "$ref": "#/$defs/ComputedStyle"
+        },
+        "runs": {
+          "description": "Rendered text runs when visible fonts differ. Run text concatenates to the cell text.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TextRun"
+          }
+        },
+        "validation": {
+          "$ref": "#/$defs/DataValidationDetails"
+        },
+        "mergedRange": {
+          "description": "Merged rectangle containing this cell, when present.",
+          "type": "string"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "uri"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "address",
+        "row",
+        "column",
+        "value",
+        "valueType",
+        "text",
+        "computedStyle"
+      ],
+      "additionalProperties": false,
+      "id": "Cell"
+    },
+    "ComputedStyle": {
+      "type": "object",
+      "properties": {
+        "numberFormat": {
+          "type": "string"
+        },
+        "fillColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$",
+          "description": "Resolved color as #RRGGBB, or #RRGGBBAA when translucent."
+        },
+        "font": {
+          "$ref": "#/$defs/Font"
+        },
+        "horizontalAlignment": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "justify"
+          ]
+        },
+        "verticalAlignment": {
+          "type": "string",
+          "enum": [
+            "top",
+            "middle",
+            "bottom"
+          ]
+        },
+        "wrapText": {
+          "type": "boolean"
+        },
+        "borders": {
+          "type": "object",
+          "properties": {
+            "top": {
+              "$ref": "#/$defs/Border"
+            },
+            "bottom": {
+              "$ref": "#/$defs/Border"
+            },
+            "left": {
+              "$ref": "#/$defs/Border"
+            },
+            "right": {
+              "$ref": "#/$defs/Border"
+            },
+            "diagonal": {
+              "$ref": "#/$defs/Border"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "numberFormat",
+        "fillColor",
+        "font",
+        "wrapText"
+      ],
+      "additionalProperties": false,
+      "description": "Resolved cell appearance from the renderer. For mixed rich-text fonts, font describes the cell default and runs supplies each actual text style.",
+      "id": "ComputedStyle"
+    },
+    "Font": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number",
+          "description": "Resolved font size in points."
+        },
+        "bold": {
+          "type": "boolean"
+        },
+        "italic": {
+          "type": "boolean"
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$",
+          "description": "Resolved color as #RRGGBB, or #RRGGBBAA when translucent."
+        },
+        "underline": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "size",
+        "bold",
+        "italic",
+        "color"
+      ],
+      "additionalProperties": false,
+      "id": "Font"
+    },
+    "Border": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$",
+          "description": "Resolved color as #RRGGBB, or #RRGGBBAA when translucent."
+        }
+      },
+      "required": [
+        "color"
+      ],
+      "additionalProperties": false,
+      "id": "Border"
+    },
+    "TextRun": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "font": {
+          "$ref": "#/$defs/Font"
+        }
+      },
+      "required": [
+        "text",
+        "font"
+      ],
+      "additionalProperties": false,
+      "id": "TextRun"
+    },
+    "DataValidationDetails": {
+      "type": "object",
+      "properties": {
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "An A1 range within this worksheet."
+          }
+        },
+        "rule": {
+          "$ref": "#/$defs/DataValidationRule"
+        },
+        "ignoreBlanks": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ranges",
+        "rule",
+        "ignoreBlanks"
+      ],
+      "additionalProperties": false,
+      "id": "DataValidationDetails"
+    },
+    "DataValidationRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "whole",
+            "decimal",
+            "list",
+            "date",
+            "time",
+            "textLength",
+            "custom"
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "between",
+            "notBetween",
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanOrEqual",
+            "greaterThan",
+            "greaterThanOrEqual"
+          ]
+        },
+        "formula1": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "formula2": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "id": "DataValidationRule"
+    },
+    "Region": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Sheet-qualified A1 bounding range."
+        },
+        "kind": {
+          "type": "string",
+          "const": "region"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        },
+        "range": {
+          "type": "string",
+          "description": "An A1 range within this worksheet."
+        },
+        "rowCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "columnCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "summary": {
+          "$ref": "#/$defs/Statistics"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Column"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "range",
+        "rowCount",
+        "columnCount",
+        "summary",
+        "columns"
+      ],
+      "additionalProperties": false,
+      "description": "A connected region of populated/formula cells and statistics over its bounding rectangle. Column names, when present, come from first-row text.",
+      "id": "Region"
+    },
+    "Drawing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "shape",
+            "image"
+          ]
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "geometry": {
+          "type": "string"
+        },
+        "fillColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+        },
+        "lineColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "anchor": {
+          "$ref": "#/$defs/DrawingAnchor"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "anchor"
+      ],
+      "additionalProperties": false,
+      "id": "Drawing"
+    },
+    "DrawingAnchor": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "object",
+          "properties": {
+            "cell": {
+              "type": "string"
+            },
+            "offsetX": {
+              "type": "number"
+            },
+            "offsetY": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "cell",
+            "offsetX",
+            "offsetY"
+          ],
+          "additionalProperties": false
+        },
+        "to": {
+          "type": "object",
+          "properties": {
+            "cell": {
+              "type": "string"
+            },
+            "offsetX": {
+              "type": "number"
+            },
+            "offsetY": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "cell",
+            "offsetX",
+            "offsetY"
+          ],
+          "additionalProperties": false
+        },
+        "size": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "from"
+      ],
+      "additionalProperties": false,
+      "description": "Drawing placement using A1 cells and pixel offsets/dimensions.",
+      "id": "DrawingAnchor"
+    },
+    "SparklineGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "sparklineGroup"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "dateAxisRange": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lineWeight": {
+          "type": "number"
+        },
+        "displayHidden": {
+          "type": "boolean"
+        },
+        "rightToLeft": {
+          "type": "boolean"
+        },
+        "showAxis": {
+          "type": "boolean"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "markers": {
+          "type": "object",
+          "properties": {
+            "show": {
+              "type": "boolean"
+            },
+            "high": {
+              "type": "boolean"
+            },
+            "low": {
+              "type": "boolean"
+            },
+            "first": {
+              "type": "boolean"
+            },
+            "last": {
+              "type": "boolean"
+            },
+            "negative": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "show",
+            "high",
+            "low",
+            "first",
+            "last",
+            "negative"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "type",
+        "range",
+        "source",
+        "count",
+        "displayHidden",
+        "rightToLeft",
+        "showAxis",
+        "markers"
+      ],
+      "additionalProperties": false,
+      "id": "SparklineGroup"
+    },
+    "Slicer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "slicer"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "pivotTable": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "selectedItems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Explicitly selected item labels; empty when no manual selection restricts the slicer."
+        },
+        "style": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "name",
+        "caption",
+        "pivotTable",
+        "field",
+        "selectedItems",
+        "style",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false,
+      "id": "Slicer"
+    },
+    "DataTable": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "dataTable"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "rowInput": {
+          "type": "string"
+        },
+        "columnInput": {
+          "type": "string"
+        },
+        "twoVariable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "range",
+        "formula",
+        "twoVariable"
+      ],
+      "additionalProperties": false,
+      "description": "A what-if data table and its input-cell bindings.",
+      "id": "DataTable"
+    },
+    "Thread": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "thread"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "resolved",
+            "unspecified"
+          ]
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Comment"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "status",
+        "comments"
+      ],
+      "additionalProperties": false,
+      "id": "Thread"
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "editedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "createdAt"
+      ],
+      "additionalProperties": false,
+      "id": "Comment"
+    },
+    "Note": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "note"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "text"
+      ],
+      "additionalProperties": false,
+      "description": "A classic cell note, separate from threaded comments.",
+      "id": "Note"
+    },
+    "Table": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The table's public name."
+        },
+        "kind": {
+          "type": "string",
+          "const": "table"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        },
+        "name": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string",
+          "description": "An A1 range within this worksheet."
+        },
+        "showHeaders": {
+          "type": "boolean"
+        },
+        "showTotals": {
+          "type": "boolean"
+        },
+        "showFilterButton": {
+          "type": "boolean"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Column"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "name",
+        "range",
+        "showHeaders",
+        "showTotals",
+        "showFilterButton",
+        "columns"
+      ],
+      "additionalProperties": false,
+      "id": "Table"
+    },
+    "Chart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "chart"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "anchor": {
+          "$ref": "#/$defs/DrawingAnchor"
+        },
+        "legend": {
+          "type": "object",
+          "properties": {
+            "visible": {
+              "type": "boolean"
+            },
+            "position": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "visible"
+          ],
+          "additionalProperties": false
+        },
+        "axes": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "$ref": "#/$defs/ChartAxis"
+            },
+            "value": {
+              "$ref": "#/$defs/ChartAxis"
+            }
+          },
+          "required": [
+            "category",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "series": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChartSeries"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "anchor",
+        "legend",
+        "axes",
+        "series"
+      ],
+      "additionalProperties": false,
+      "id": "Chart"
+    },
+    "ChartAxis": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        },
+        "numberFormat": {
+          "type": "string"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "majorUnit": {
+          "type": "number"
+        },
+        "minorUnit": {
+          "type": "number"
+        },
+        "logBase": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "visible"
+      ],
+      "additionalProperties": false,
+      "id": "ChartAxis"
+    },
+    "ChartSeries": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "formula": {
+          "description": "Source range formula for the series numeric values.",
+          "type": "string"
+        },
+        "categoryFormula": {
+          "description": "Source range formula for category labels.",
+          "type": "string"
+        },
+        "xFormula": {
+          "description": "Source range formula for numeric X coordinates in scatter or bubble charts.",
+          "type": "string"
+        },
+        "valueCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Positions in the series A1 source range, or literal data count. Null for other source expressions."
+        },
+        "categoryCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Positions in the category A1 source range, or literal category count. Null for other source expressions."
+        },
+        "numberFormat": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "valueCount",
+        "categoryCount"
+      ],
+      "additionalProperties": false,
+      "id": "ChartSeries"
+    },
+    "PivotTable": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "pivotTable"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "rowFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PivotHierarchy"
+          }
+        },
+        "columnFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PivotHierarchy"
+          }
+        },
+        "filterFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PivotHierarchy"
+          }
+        },
+        "valueFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PivotValueField"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "name",
+        "range",
+        "source",
+        "rowFields",
+        "columnFields",
+        "filterFields",
+        "valueFields"
+      ],
+      "additionalProperties": false,
+      "id": "PivotTable"
+    },
+    "PivotHierarchy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "filters": {
+                "$ref": "#/$defs/PivotFilters"
+              }
+            },
+            "required": [
+              "name",
+              "filters"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "name",
+        "fields"
+      ],
+      "additionalProperties": false,
+      "id": "PivotHierarchy"
+    },
+    "PivotFilters": {
+      "type": "object",
+      "properties": {
+        "dateFilter": {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "string",
+              "enum": [
+                "Unknown",
+                "Before",
+                "BeforeOrEqualTo",
+                "After",
+                "AfterOrEqualTo",
+                "Between",
+                "NotBetween",
+                "Equals",
+                "Yesterday",
+                "Today",
+                "Tomorrow",
+                "ThisWeek",
+                "LastWeek",
+                "NextWeek",
+                "ThisMonth",
+                "LastMonth",
+                "NextMonth",
+                "ThisQuarter",
+                "LastQuarter",
+                "NextQuarter",
+                "ThisYear",
+                "LastYear",
+                "NextYear",
+                "YearToDate",
+                "AllDatesInPeriodQuarter1",
+                "AllDatesInPeriodQuarter2",
+                "AllDatesInPeriodQuarter3",
+                "AllDatesInPeriodQuarter4",
+                "AllDatesInPeriodJanuary",
+                "AllDatesInPeriodFebruary",
+                "AllDatesInPeriodMarch",
+                "AllDatesInPeriodApril",
+                "AllDatesInPeriodMay",
+                "AllDatesInPeriodJune",
+                "AllDatesInPeriodJuly",
+                "AllDatesInPeriodAugust",
+                "AllDatesInPeriodSeptember",
+                "AllDatesInPeriodOctober",
+                "AllDatesInPeriodNovember",
+                "AllDatesInPeriodDecember"
+              ]
+            },
+            "comparator": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "specificity": {
+                  "type": "string",
+                  "enum": [
+                    "Year",
+                    "Month",
+                    "Day",
+                    "Hour",
+                    "Minute",
+                    "Second"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "lowerBound": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "specificity": {
+                  "type": "string",
+                  "enum": [
+                    "Year",
+                    "Month",
+                    "Day",
+                    "Hour",
+                    "Minute",
+                    "Second"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "upperBound": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "specificity": {
+                  "type": "string",
+                  "enum": [
+                    "Year",
+                    "Month",
+                    "Day",
+                    "Hour",
+                    "Minute",
+                    "Second"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "wholeDays": {
+              "type": "boolean"
+            },
+            "exclusive": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "condition"
+          ],
+          "additionalProperties": false
+        },
+        "labelFilter": {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "string",
+              "enum": [
+                "Unknown",
+                "BeginsWith",
+                "EndsWith",
+                "Contains",
+                "NotContains",
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqualTo",
+                "LessThan",
+                "LessThanOrEqualTo",
+                "Between",
+                "NotBetween"
+              ]
+            },
+            "substring": {
+              "type": "string"
+            },
+            "comparator": {
+              "type": "string"
+            },
+            "lowerBound": {
+              "type": "string"
+            },
+            "upperBound": {
+              "type": "string"
+            },
+            "exclusive": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "condition"
+          ],
+          "additionalProperties": false
+        },
+        "valueFilter": {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "string",
+              "enum": [
+                "Unknown",
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqualTo",
+                "LessThan",
+                "LessThanOrEqualTo",
+                "Between",
+                "NotBetween",
+                "TopN",
+                "BottomN",
+                "TopPercent",
+                "BottomPercent"
+              ]
+            },
+            "comparator": {
+              "type": "number"
+            },
+            "lowerBound": {
+              "type": "number"
+            },
+            "upperBound": {
+              "type": "number"
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "selectionType": {
+              "type": "string",
+              "enum": [
+                "Items",
+                "Percent",
+                "Sum"
+              ]
+            },
+            "value": {
+              "type": "string"
+            },
+            "exclusive": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "condition"
+          ],
+          "additionalProperties": false
+        },
+        "manualFilter": {
+          "type": "object",
+          "properties": {
+            "selectedItems": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "excludedItems": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "id": "PivotFilters"
+    },
+    "PivotValueField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "aggregation": {
+          "type": "string"
+        },
+        "numberFormat": {
+          "type": "string"
+        },
+        "showAs": {
+          "type": "object",
+          "properties": {
+            "calculation": {
+              "type": "string"
+            },
+            "baseField": {
+              "type": "string"
+            },
+            "baseItem": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "calculation"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "name",
+        "field",
+        "aggregation",
+        "numberFormat",
+        "showAs"
+      ],
+      "additionalProperties": false,
+      "id": "PivotValueField"
+    },
+    "DataValidation": {
+      "type": "object",
+      "properties": {
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "An A1 range within this worksheet."
+          }
+        },
+        "rule": {
+          "$ref": "#/$defs/DataValidationRule"
+        },
+        "ignoreBlanks": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "const": "dataValidation"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "The worksheet's public name."
+        }
+      },
+      "required": [
+        "ranges",
+        "rule",
+        "ignoreBlanks",
+        "kind",
+        "sheet"
+      ],
+      "additionalProperties": false,
+      "id": "DataValidation"
+    },
+    "ConditionalFormat": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "conditionalFormat"
+        },
+        "sheet": {
+          "type": "string"
+        },
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "number"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "formulas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text": {
+          "type": "string"
+        },
+        "stopIfTrue": {
+          "type": "boolean"
+        },
+        "timePeriod": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "number"
+        },
+        "percent": {
+          "type": "boolean"
+        },
+        "bottom": {
+          "type": "boolean"
+        },
+        "aboveAverage": {
+          "type": "boolean"
+        },
+        "equalAverage": {
+          "type": "boolean"
+        },
+        "standardDeviations": {
+          "type": "number"
+        },
+        "format": {
+          "type": "object",
+          "properties": {
+            "fillColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "fontColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "fontName": {
+              "type": "string"
+            },
+            "fontSize": {
+              "description": "Font size in points.",
+              "type": "number"
+            },
+            "borders": {
+              "type": "object",
+              "properties": {
+                "top": {
+                  "type": "object",
+                  "properties": {
+                    "style": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "bottom": {
+                  "type": "object",
+                  "properties": {
+                    "style": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "left": {
+                  "type": "object",
+                  "properties": {
+                    "style": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "right": {
+                  "type": "object",
+                  "properties": {
+                    "style": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "diagonal": {
+                  "type": "object",
+                  "properties": {
+                    "style": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "bold": {
+              "type": "boolean"
+            },
+            "italic": {
+              "type": "boolean"
+            },
+            "numberFormat": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "colorScale": {
+          "type": "object",
+          "properties": {
+            "colors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+              }
+            },
+            "thresholds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "inclusive": {
+                    "type": "boolean",
+                    "description": "Whether the threshold includes equality."
+                  }
+                },
+                "required": [
+                  "type",
+                  "inclusive"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "colors",
+            "thresholds"
+          ],
+          "additionalProperties": false
+        },
+        "dataBar": {
+          "type": "object",
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "gradient": {
+              "type": "boolean"
+            },
+            "minimumLength": {
+              "type": "number"
+            },
+            "maximumLength": {
+              "type": "number"
+            },
+            "showValue": {
+              "type": "boolean"
+            },
+            "border": {
+              "type": "boolean"
+            },
+            "negativeColorSameAsPositive": {
+              "type": "boolean"
+            },
+            "negativeBorderSameAsPositive": {
+              "type": "boolean"
+            },
+            "direction": {
+              "type": "string"
+            },
+            "axisPosition": {
+              "type": "string"
+            },
+            "borderColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "negativeColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "negativeBorderColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "axisColor": {
+              "type": "string",
+              "pattern": "^#[0-9A-F]{6}([0-9A-F]{2})?$"
+            },
+            "thresholds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "inclusive": {
+                    "type": "boolean",
+                    "description": "Whether the threshold includes equality."
+                  }
+                },
+                "required": [
+                  "type",
+                  "inclusive"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "thresholds"
+          ],
+          "additionalProperties": false
+        },
+        "iconSet": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "showValue": {
+              "type": "boolean"
+            },
+            "reverse": {
+              "type": "boolean"
+            },
+            "custom": {
+              "type": "boolean"
+            },
+            "percent": {
+              "type": "boolean"
+            },
+            "thresholds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "inclusive": {
+                    "type": "boolean",
+                    "description": "Whether the threshold includes equality."
+                  }
+                },
+                "required": [
+                  "type",
+                  "inclusive"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "thresholds"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "kind",
+        "sheet",
+        "ranges",
+        "type",
+        "formulas"
+      ],
+      "additionalProperties": false,
+      "id": "ConditionalFormat"
+    },
+    "Layout": {
+      "type": "object",
+      "properties": {
+        "defaultRowHeightPx": {
+          "type": "number"
+        },
+        "defaultColumnWidthPx": {
+          "type": "number"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991,
+                "description": "One-based worksheet row number."
+              },
+              "heightPx": {
+                "type": "number"
+              },
+              "hidden": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "row",
+              "heightPx",
+              "hidden"
+            ],
+            "additionalProperties": false
+          },
+          "description": "Rows with explicitly authored height or visibility."
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "range": {
+                "type": "string",
+                "description": "Column span such as A:C."
+              },
+              "widthPx": {
+                "type": "number"
+              },
+              "hidden": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "range",
+              "widthPx",
+              "hidden"
+            ],
+            "additionalProperties": false
+          },
+          "description": "Column spans with explicitly authored width or visibility."
+        }
+      },
+      "required": [
+        "defaultRowHeightPx",
+        "defaultColumnWidthPx",
+        "rows",
+        "columns"
+      ],
+      "additionalProperties": false,
+      "id": "Layout"
+    },
+    "DefinedName": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "definedName"
+        },
+        "name": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string",
+          "description": "workbook for a workbook-scoped name, or the worksheet's public name."
+        },
+        "formula": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "name",
+        "scope",
+        "formula"
+      ],
+      "additionalProperties": false,
+      "id": "DefinedName"
+    }
+  }
+}
